@@ -1,0 +1,31 @@
+CREATE TABLE Conversation (
+    id SERIAL PRIMARY KEY,
+    participants JSONB,
+    blackList JSONB,
+    favoriteList JSONB,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Catalog (
+    id SERIAL PRIMARY KEY,
+    userId INTEGER NOT NULL,
+    catalogName VARCHAR(255) NOT NULL,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Catalog_Conversation (
+    catalog_id INTEGER REFERENCES Catalog(id),
+    conversation_id INTEGER REFERENCES Conversation(id),
+    PRIMARY KEY (catalog_id, conversation_id)
+);
+
+CREATE TABLE Message (
+    id SERIAL PRIMARY KEY,
+    sender INTEGER NOT NULL,
+    body TEXT NOT NULL,
+    conversation_id INTEGER REFERENCES Conversation(id),
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
